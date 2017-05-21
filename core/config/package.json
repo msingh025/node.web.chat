@@ -1,0 +1,27 @@
+{
+  "name": "config",
+  "description": "Helper module for loading your native module's .node file",
+  "keywords": [
+    
+  ],
+  "version": "0.1",
+  "author": {
+    "name": "Maneesh Kumar Singh",
+    "email": "maneesh.singh@nectechnologies.in"
+  },
+  "repository": {
+    "type": "null",
+    "url": "null"
+  },
+  "main": "./lib/init.js",
+  "bugs": {
+    "url": "null"
+  },
+  "homepage": "null",
+  "license": "null",
+  "gitHead": "null",
+  "_id": "config@0.1",
+  "scripts": {},
+  "_shasum": "",
+  "_from": "bindings@*"
+}

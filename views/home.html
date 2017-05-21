@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head><title>application</title>
+    <link href="/public/stylesheets/lib/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="/public/stylesheets/lib/bootstrap-theme.min.css" media="all" rel="stylesheet" type="text/css" />
+ 	<script src='/socket.io/socket.io.js'></script>
+ 	<script src='/public/js/lib/jquery-1.11.3.min.js'></script>
+ 	<script src='/public/js/lib/bootstrap.min.js'></script>
+ 	<script src='/public/js/chat.js'></script>
+<style>
+body {
+    background-color: #DCDCDC;
+    color: #333;
+    font: 13px/18px Tahoma,sans-serif,Arial,Helvetica;
+}
+
+#user_list .list-group-item.actives{
+  background-color: #5682a3;
+  color:#ffffff;
+}
+.chat_message {
+    border: 0px solid #ddd;
+}
+.left_user_list {
+    overflow-x: hidden;
+    border:2px solid #dddddd;
+}
+#message_display_panel {
+    overflow-x: hidden;
+    
+}
+.panel-heading {
+  text-align:center;
+  color:blue;
+}
+.panel-body {
+		padding: 0px; 
+  }
+ .col-md-8 {
+      padding-left: 0px;
+  	  padding-right: 0px;
+  }
+
+.col-xs-8 {
+   background-color: #ffffff;
+  }
+
+  .left_user_list {
+  	padding-left: 0px;
+  	padding-right: 0px;
+  
+  }
+  #contents {
+    padding-top: 0px;
+  	padding-bottom: 0px;
+
+  }
+
+ #content {
+    max-width: 1010px;
+    margin: 0 auto;
+    background-color: #ffffff;
+ 
+  }
+  .blue_label {
+  			color:blue;
+  			font-weight:bold
+
+  }
+  .color_box {
+     display:none;
+     width:15px;
+     height:15px; 
+     float:left;
+     position: relative;
+     top: 4px;  
+     margin: 2px;
+     opacity:.5;
+     cursor:pointer;
+  }
+ .color_box:hover {
+    opacity:1
+} 
+  .color_box.red {
+  background-color: red;
+  }
+  .color_box.blue {
+  background-color: blue;
+  }
+  .color_box.green {
+  background-color: green;
+  }
+  .color_box.yellow {
+  background-color: yellow;
+  }
+  .color_box.black {
+  background-color: black;
+  }
+  .color_box.orange {
+  background-color: orange;
+  }
+  #canvas {
+   	display:none;
+	background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    color: #555;
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+    line-height: 1.42857;
+    padding: 2px 12px;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;
+    cursor:crosshair;
+  }
+  #user_list .list-group-item {
+  cursor:pointer;
+  }
+#modal-content {
+   background-color: #DCDCDC;
+  }
+ 
+  #message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index:1;
+    text-align: center;
+    font-weight: bold;
+}
+#inner-message {
+    margin: 0 auto;
+}
+
+#message_box {
+  font-size: 12px;
+  padding: 6px;
+  min-height: 50px;
+  height: 50px;
+  resize: none;
+  border:0;
+  border-bottom: 1px solid;
+}
+#message_box_div {
+  border-bottom: 1px solid #e6e6e6;
+  padding: 0;
+  margin: 0 0 22px;
+
+}
+.tg_head_split {
+  max-width: 1010px;
+  margin: 0 auto;
+  height: 48px;
+  background: #5682a3;
+  color:#ffffff;
+
+}
+.no-border {
+    border: 0;
+    box-shadow: none; /* You may want to include this as bootstrap applies these styles too */
+}
+.form-control:focus {
+  border: 0;
+  o outline:0px !important;
+  -webkit-box-shadow: inset 0 0px 0px rgba(0,0,0,.075),0 0 0px rgba(102,175,233,.6);
+  box-shadow: inset 0 0px 0px rgba(0,0,0,.075),0 0 0px rgba(102,175,233,.6);
+}
+textarea:hover, textarea:active, textarea:focus {
+        outline:0px !important;
+    }
+
+</style>
+ 	<script type="text/javascript">
+      var socket = io.connect();
+      var chatObj = new chat(<%- JSON.stringify(data) %>);
+      window.onload = function(){
+
+    	   chatObj.setAppScreen();
+    	   
+    	   
+       };
+       document.onkeydown = function(ev) {	
+			var key;
+			ev = ev || event;
+			key = ev.keyCode;
+			if (key == 116) {
+			return false; 
+	}}
+       $(window).resize(function(){
+    	  chatObj.setAppScreen();
+    	});
+    </script>
+    
+    </head>
+    <body><div class="container" id ="contents">
+    <div id="message" style="display:none">
+    <div id="inner-message" class="alert alert-success">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        <span id="onlineAlert"></span>
+    </div>
+    
+</div>
+  <div class="row tg_head_split">
+    <div class="col-xs-4"></div>
+    <div class="col-xs-4"><div class="label-green" style=""><span> </span></div></div>
+    <div class="col-xs-4"></div>
+    </div>
+ <div class="row" id="content">
+    <div class="col-xs-4 left_user_list" id="user_list">
+   <!--  <ul class="nav nav-pills">
+  		<li role="presentation" class="active"><a href="#">User List</a></li>
+   </ul>-->
+   <ul class="list-group">
+  <%if (data['isLog'] == true) { %>
+		 <li class="list-group-item" id="0" onclick="chatObj.welcome(this); ">
+		    <img width="70px" height="70px" src="/public/image/default_pic.png"/>
+		  	<span class="label label-success label-as-badge">O</span>
+		    <%= data.user %>
+		    <a href="#" class="btn" id="logout" style:"float:right;">Logout !</a>
+	</li>
+	<% } %>
+   </ul>
+    </div>
+    
+    <div class="col-xs-8">
+    <div id="welcome">
+      Welcome !!!!!!!!!!!!
+    </div>
+    <div id="messgae_editor" style="display:none">
+    <div id="message_display_panel">
+    <ul class="list-group">
+    
+	</ul>
+ </div>
+     	 <form>
+     	  <div class="progress" style="height:2px;margin-right: 16px; display:none;">
+  			<div class="progress-bar" role="progressbar"
+  				aria-valuemin="0" aria-valuemax="100" style="width:0%">
+  			</div>
+		</div>
+     	     <span id="smilye_area" style="float:left" ><input type="checkbox" id="smilye_on_off"/><i class="fa fa-smile-o"></i>
+     	      Draw
+			</span>
+			<div class="color_box orange"	data="orange"></div>
+			<div class="color_box green"	data="green"></div>
+			<div class="color_box blue" 	data="blue"></div>
+			<div class="color_box red" 		data="red"></div>
+			<div class="color_box yellow"	data="yellow"></div>
+			<div  class="color_box black"	data="black"></div>
+
+			<div  class="color_box send_canvas_message"	data="send" style="float:right;opacity:1;"><img alt="send" src="/public/image/send.png" width="15px" height="15px"/></div>
+        
+			<textarea class="form-control no-border" autofocus="true" name="description" id="message_box" style="float:left;"></textarea>
+			  <canvas id="canvas"></canvas> 
+
+		
+		</form> 
+		</div>
+    </div>
+    </div>
+  </div>
+</div>
+<div id="modal-content" class="modal fade" tabindex="-1" role="dialog">
+ <form action="#" id="reg_log_form">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Welcome to chat room</h3>
+            </div>
+            <div class="row">
+					<div class="col-sm-12" style="text-align: center;"><span style="color:red" id="error_message"></span>  </div>
+			</div>
+             <div class="row">
+			
+  			<div class="col-sm-6">
+  			<table class="table">
+			<tr><td> <span>Username</span> </td> <td> <input type="text" id="txtname" required="true"  name="userName" /></td><tr>
+			 <tr><td> <span>Password</span> </td> <td> <input type="password" id="password" required="true"  name="password" /></td><tr>
+			<tr><td> <span></span> </td> <td>   <a href="#" class="btn" id="login">Login !</a></td><tr>
+			</table>
+             </div>
+  			<div class="col-sm-6">
+  			<table class="table">
+			<tr><td><span>Name </span> </td> <td>  <input type="text" id="rg_txtname" required="true"   name="rg_name" /></td><tr>
+			 <tr><td>  <span>Username</span>  </td> <td>  <input type="text" id="rg_user_txtname" required="true"  name="rg_userName" /></td><tr>
+			 <tr><td>   <span>Password</span>  </td> <td>    <input type="password" id="rg_password" required="true"  name="rg_password" /></td><tr>
+			<tr><td> <span></span> </td> <td>    <a href="#" class="btn" id="register">Register !</a></td><tr>
+			</table>
+            </div>
+			</div>
+ 
+           
+        </div>
+    </div>
+    </form>
+</div>
+  
+        <!-- -->
+    </body>
+</html>

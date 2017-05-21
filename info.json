@@ -1,0 +1,14 @@
+{
+ "module":['express',
+           'socket.io',
+           'path',
+           'node-static',
+           'ejs',
+           'session-manager',
+           'sqlite3',
+           'body-parser',
+           'connect-busboy'
+           
+           ]	
+}
+

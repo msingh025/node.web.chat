@@ -1,0 +1,7 @@
+{
+	"PORT":8009,
+	"IP":"170.0.0.1",
+	"URL":"chat.com",
+	"DEFAULT_LANG":"en",
+	"UPLOAD":"/home/maneesh/Desktop/d/files/"
+	}
