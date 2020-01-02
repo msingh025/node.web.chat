@@ -43,7 +43,7 @@ function register(req ,res, params){
 											  params.io.to(v.id).emit('joined',info);
 										 });
 										 session.set('auth', authValue);
-										 res.send(authValue);
+										 res.json(authValue);
 						 });
 						 
 						
@@ -53,7 +53,7 @@ function register(req ,res, params){
 						 authValue.exist = true;
 						 authValue['message']= 'user all ready exist!';
 						 session.set('auth', authValue);
-						 res.send(authValue);
+						 res.json(authValue);
 					 }
 					}catch(ex){
 						// console.log(ex);
@@ -61,7 +61,7 @@ function register(req ,res, params){
 						authValue['success']= false;
 						 authValue['message']= ex;
 						 session.set('auth', authValue);
-						res.send(authValue);
+						res.json(authValue);
 					}
 				 });
 				
