@@ -5,7 +5,7 @@ function register(req ,res, params){
 	 var that = this;
 	 req.accepts('application/json');
 	 var session =req['SESSION'];
-	 var authValue = session.get('auth');
+	 var authValue = session.get('auth') | {};
 	 var user = req.param('rg_userName');
 	 var password = req.param('rg_password');
 	 var name	 = req.param('rg_name');
