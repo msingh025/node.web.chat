@@ -10,7 +10,7 @@ function userlist(req ,res, io){
 	 var toUser = req.param('toUser');
 	 var messageModel = that.getModel('message');
 	 messageModel.getMessage(toUser,authValue.user,function(rows){
-		 res.send(rows);
+		 res.json(rows);
 	 });
 	
 }

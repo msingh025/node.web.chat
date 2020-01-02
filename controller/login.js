@@ -35,7 +35,7 @@ function login(req ,res, params){
 							  params.io.to(v.id).emit('joined',info);
 						 });
 						// console.log('yes');
-						 res.send(authValue);
+						 res.json(authValue);
 					 }else{
 						 throw 'User name or password wrong!'
 					 }
@@ -45,7 +45,7 @@ function login(req ,res, params){
 						 authValue['message']=ex;
 						 authValue.exist = false;
 						 session.set('auth',authValue);
-						 res.send(authValue);
+						 res.json(authValue);
 					}
 				 });
 				

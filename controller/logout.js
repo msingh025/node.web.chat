@@ -17,6 +17,6 @@ function logout(req ,res, params){
 		  
 	 });
 	 session.set('auth', auth);
-	 res.send(auth);
+	 res.json(auth);
 
 }

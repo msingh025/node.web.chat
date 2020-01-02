@@ -16,14 +16,14 @@ function userlist(req ,res, io){
 				that.db.all("SELECT id,user,created,name,islogin from chat_user WHERE user<>'"+user+"'", function(err, row) {
 					try{
 					 if(err) throw err;
-					 res.send(row);
+					 res.json(row);
 					}catch(ex){
 						 authValue.isLog = false;
 						 authValue['success']= false;
 						 authValue['message']=ex;
 						 authValue.exist = false;
 						 session.set('auth',authValue);
-						 res.send(authValue);
+						 res.json(authValue);
 					}
 				 });
 				

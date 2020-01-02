@@ -15,7 +15,7 @@ function upload(req ,res, params){
 	        fstream.on('close', function () {
 	        	authValue['success'] = true;
 	        	authValue['filename'] = filename;
-	            res.send(authValue);
+	            res.json(authValue);
 	        });
 	    });
 }
